@@ -42,6 +42,9 @@ public class CustomerServiceTest {
         customer.setName(NAME);
         customer.setCpf(CPF);
 
+        //by default, return an empty optional when findByCpf is called
+        when(customerRepository.findByCpf(CPF )).thenReturn(Optional.empty());
+
     }
 
     @Test
@@ -55,6 +58,7 @@ public class CustomerServiceTest {
     @Test(expected = UnicCpfException.class)
     public void shouldNotSaveTwoCustomersWithSameCpf() throws Exception {
 
+        //this method overrides the default behavior present in the @Before setup
         when(customerRepository.findByCpf(CPF)).thenReturn(Optional.of(customer));
 
         customerService.save(customer);
