@@ -2,6 +2,7 @@ package com.raquelmichelon.deliveryapisbtdd.service;
 
 import com.raquelmichelon.deliveryapisbtdd.model.Customer;
 import com.raquelmichelon.deliveryapisbtdd.repository.CustomerRepository;
+import com.raquelmichelon.deliveryapisbtdd.service.exception.UnicCpfException;
 import com.raquelmichelon.deliveryapisbtdd.service.impl.CustomerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,9 +52,11 @@ public class CustomerServiceTest {
         verify(customerRepository).save(customer);
     }
 
-    @Test
+    @Test(expected = UnicCpfException.class)
     public void shouldNotSaveTwoCustomersWithSameCpf() throws Exception {
 
         when(customerRepository.findByCpf(CPF)).thenReturn(Optional.of(customer));
+
+        customerService.save(customer);
     }
 }
