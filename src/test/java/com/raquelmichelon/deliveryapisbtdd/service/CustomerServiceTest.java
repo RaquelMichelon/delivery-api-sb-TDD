@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -49,5 +51,9 @@ public class CustomerServiceTest {
         verify(customerRepository).save(customer);
     }
 
+    @Test
+    public void shouldNotSaveTwoCustomersWithSameCpf() throws Exception {
 
+        when(customerRepository.findByCpf(CPF)).thenReturn(Optional.of(customer));
+    }
 }
